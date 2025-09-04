@@ -51,11 +51,11 @@ contract TimelockControllerEnumerable is TimelockController {
         uint256 minDelay,
         address[] memory proposers,
         address[] memory executors,
-        address canceller
-    ) TimelockController(minDelay, proposers, executors, canceller) {}
+        address admin
+    ) TimelockController(minDelay, proposers, executors, admin) {}
 
     /// @inheritdoc TimelockController
-    /// @dev Store the operation the mapping and set
+    /// @dev Store the operation
     function schedule(
         address target,
         uint256 value,
@@ -78,7 +78,7 @@ contract TimelockControllerEnumerable is TimelockController {
     }
 
     /// @inheritdoc TimelockController
-    /// @dev Store the operationBatch the mapping and set
+    /// @dev Store the operationBatch
     function scheduleBatch(
         address[] calldata targets,
         uint256[] calldata values,
@@ -101,7 +101,7 @@ contract TimelockControllerEnumerable is TimelockController {
     }
 
     /// @inheritdoc TimelockController
-    /// @dev Remove the operation from the mapping and set
+    /// @dev Remove the operation
     function cancel(bytes32 id) public virtual override {
         super.cancel(id);
         if (_operationsIdSet.contains(id)) {
@@ -114,7 +114,7 @@ contract TimelockControllerEnumerable is TimelockController {
         }
     }
 
-    /// @dev Return the operations from the mapping and set
+    /// @dev Return the operations
     /// @return operations_ The operations array
     function operations() public view returns (Operation[] memory operations_) {
         uint256 operationsCount_ = _operationsIdSet.length();
@@ -132,7 +132,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationsCount_;
     }
 
-    /// @dev Return the operation at the given index from the mapping and set
+    /// @dev Return the operation at the given index
     /// @param index The index of the operation
     /// @return operation_ The operation
     function operation(uint256 index) public view returns (Operation memory operation_) {
@@ -143,7 +143,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operation_;
     }
 
-    /// @dev Return the operation with the given id from the mapping and set
+    /// @dev Return the operation with the given id
     /// @param id The id of the operation
     /// @return operation_ The operation
     function operation(bytes32 id) public view returns (Operation memory operation_) {
@@ -154,7 +154,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operation_;
     }
 
-    /// @dev Return the operationsBatch from the mapping and set
+    /// @dev Return the operationsBatch
     /// @return operationsBatch_ The operationsBatch array
     function operationsBatch() public view returns (OperationBatch[] memory operationsBatch_) {
         uint256 operationsBatchCount_ = _operationsBatchIdSet.length();
@@ -172,7 +172,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationsBatchCount_;
     }
 
-    /// @dev Return the operationsBatch at the given index from the mapping and set
+    /// @dev Return the operationsBatch at the given index
     /// @param index The index of the operationsBatch
     /// @return operationBatch_ The operationsBatch
     function operationBatch(uint256 index) public view returns (OperationBatch memory operationBatch_) {
@@ -183,7 +183,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationBatch_;
     }
 
-    /// @dev Return the operationsBatch with the given id from the mapping and set
+    /// @dev Return the operationsBatch with the given id
     /// @param id The id of the operationsBatch
     /// @return operationBatch_ The operationsBatch
     function operationBatch(bytes32 id) public view returns (OperationBatch memory operationBatch_) {
