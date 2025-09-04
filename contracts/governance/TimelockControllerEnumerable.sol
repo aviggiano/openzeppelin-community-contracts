@@ -4,9 +4,12 @@ pragma solidity ^0.8.20;
 import {TimelockController} from "@openzeppelin/contracts/governance/TimelockController.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
+/// @inheritdoc TimelockController
+/// @dev Extends the TimelockController to allow for enumerable operations
 contract TimelockControllerEnumerable is TimelockController {
     using EnumerableSet for EnumerableSet.Bytes32Set;
 
+    /// @notice The operation struct
     struct Operation {
         address target;
         uint256 value;
@@ -16,6 +19,7 @@ contract TimelockControllerEnumerable is TimelockController {
         uint256 delay;
     }
 
+    /// @notice The operation batch struct
     struct OperationBatch {
         address[] targets;
         uint256[] values;
@@ -25,17 +29,26 @@ contract TimelockControllerEnumerable is TimelockController {
         uint256 delay;
     }
 
+    /// @notice The error when the operation index is not found
     error OperationIndexNotFound(uint256 index);
+    /// @notice The error when the operation id is not found
     error OperationIdNotFound(bytes32 id);
+    /// @notice The error when the operation batch index is not found
     error OperationBatchIndexNotFound(uint256 index);
+    /// @notice The error when the operation batch id is not found
     error OperationBatchIdNotFound(bytes32 id);
 
+    /// @notice The operations id set
     EnumerableSet.Bytes32Set private _operationsIdSet;
+    /// @notice The operations map
     mapping(bytes32 id => Operation operation) private _operationsMap;
 
+    /// @notice The operations batch id set
     EnumerableSet.Bytes32Set private _operationsBatchIdSet;
+    /// @notice The operations batch map
     mapping(bytes32 id => OperationBatch operationBatch) private _operationsBatchMap;
 
+    /// @inheritdoc TimelockController
     constructor(
         uint256 minDelay,
         address[] memory proposers,
