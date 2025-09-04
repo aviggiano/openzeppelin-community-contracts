@@ -153,6 +153,8 @@ contract TimelockControllerEnumerableTest is Test {
         assertEq(timelockControllerEnumerable.operationsCount(), 0);
         vm.expectRevert(abi.encodeWithSelector(TimelockControllerEnumerable.OperationIdNotFound.selector, id));
         timelockControllerEnumerable.operation(id);
+        vm.expectRevert(abi.encodeWithSelector(TimelockControllerEnumerable.OperationIndexNotFound.selector, 0));
+        timelockControllerEnumerable.operation(uint256(0));
     }
 
     function test_cancel_scheduleBatch() public {
@@ -169,5 +171,7 @@ contract TimelockControllerEnumerableTest is Test {
         assertEq(timelockControllerEnumerable.operationsBatchCount(), 0);
         vm.expectRevert(abi.encodeWithSelector(TimelockControllerEnumerable.OperationBatchIdNotFound.selector, id));
         timelockControllerEnumerable.operationBatch(id);
+        vm.expectRevert(abi.encodeWithSelector(TimelockControllerEnumerable.OperationBatchIndexNotFound.selector, 0));
+        timelockControllerEnumerable.operationBatch(uint256(0));
     }
 }

@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import {TimelockController} from "@openzeppelin/contracts/governance/TimelockController.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
-/// @inheritdoc TimelockController
 /// @dev Extends the TimelockController to allow for enumerable operations
 contract TimelockControllerEnumerable is TimelockController {
     using EnumerableSet for EnumerableSet.Bytes32Set;
@@ -48,7 +47,6 @@ contract TimelockControllerEnumerable is TimelockController {
     /// @notice The operations batch map
     mapping(bytes32 id => OperationBatch operationBatch) private _operationsBatchMap;
 
-    /// @inheritdoc TimelockController
     constructor(
         uint256 minDelay,
         address[] memory proposers,
