@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import {TimelockController} from "@openzeppelin/contracts/governance/TimelockController.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
-/// @dev Extends the TimelockController to allow for enumerable operations
+/// @notice Extends the TimelockController to allow for enumerable operations
 contract TimelockControllerEnumerable is TimelockController {
     using EnumerableSet for EnumerableSet.Bytes32Set;
 
@@ -47,6 +47,11 @@ contract TimelockControllerEnumerable is TimelockController {
     /// @notice The operations batch map
     mapping(bytes32 id => OperationBatch operationBatch) private _operationsBatchMap;
 
+    /// @notice Initializes the contract with the given timelock parameters
+    /// @param minDelay initial minimum delay in seconds for operations
+    /// @param proposers accounts to be granted proposer and canceller roles
+    /// @param executors accounts to be granted executor role
+    /// @param admin optional account to be granted admin role; disable with zero address
     constructor(
         uint256 minDelay,
         address[] memory proposers,
@@ -55,7 +60,6 @@ contract TimelockControllerEnumerable is TimelockController {
     ) TimelockController(minDelay, proposers, executors, admin) {}
 
     /// @inheritdoc TimelockController
-    /// @dev Store the operation
     function schedule(
         address target,
         uint256 value,
@@ -78,7 +82,6 @@ contract TimelockControllerEnumerable is TimelockController {
     }
 
     /// @inheritdoc TimelockController
-    /// @dev Store the operationBatch
     function scheduleBatch(
         address[] calldata targets,
         uint256[] calldata values,
@@ -101,7 +104,6 @@ contract TimelockControllerEnumerable is TimelockController {
     }
 
     /// @inheritdoc TimelockController
-    /// @dev Remove the operation
     function cancel(bytes32 id) public virtual override {
         super.cancel(id);
         if (_operationsIdSet.contains(id)) {
@@ -114,7 +116,7 @@ contract TimelockControllerEnumerable is TimelockController {
         }
     }
 
-    /// @dev Return the operations
+    /// @notice Return all scheduled operations
     /// @return operations_ The operations array
     function operations() public view returns (Operation[] memory operations_) {
         uint256 operationsCount_ = _operationsIdSet.length();
@@ -125,14 +127,14 @@ contract TimelockControllerEnumerable is TimelockController {
         return operations_;
     }
 
-    /// @dev Return the number of operations from the set
+    /// @notice Return the number of operations from the set
     /// @return operationsCount_ The number of operations
     function operationsCount() public view returns (uint256 operationsCount_) {
         operationsCount_ = _operationsIdSet.length();
         return operationsCount_;
     }
 
-    /// @dev Return the operation at the given index
+    /// @notice Return the operation at the given index
     /// @param index The index of the operation
     /// @return operation_ The operation
     function operation(uint256 index) public view returns (Operation memory operation_) {
@@ -143,7 +145,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operation_;
     }
 
-    /// @dev Return the operation with the given id
+    /// @notice Return the operation with the given id
     /// @param id The id of the operation
     /// @return operation_ The operation
     function operation(bytes32 id) public view returns (Operation memory operation_) {
@@ -154,7 +156,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operation_;
     }
 
-    /// @dev Return the operationsBatch
+    /// @notice Return all scheduled operation batches
     /// @return operationsBatch_ The operationsBatch array
     function operationsBatch() public view returns (OperationBatch[] memory operationsBatch_) {
         uint256 operationsBatchCount_ = _operationsBatchIdSet.length();
@@ -165,14 +167,14 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationsBatch_;
     }
 
-    /// @dev Return the number of operationsBatch from the set
+    /// @notice Return the number of operationsBatch from the set
     /// @return operationsBatchCount_ The number of operationsBatch
     function operationsBatchCount() public view returns (uint256 operationsBatchCount_) {
         operationsBatchCount_ = _operationsBatchIdSet.length();
         return operationsBatchCount_;
     }
 
-    /// @dev Return the operationsBatch at the given index
+    /// @notice Return the operationsBatch at the given index
     /// @param index The index of the operationsBatch
     /// @return operationBatch_ The operationsBatch
     function operationBatch(uint256 index) public view returns (OperationBatch memory operationBatch_) {
@@ -183,7 +185,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationBatch_;
     }
 
-    /// @dev Return the operationsBatch with the given id
+    /// @notice Return the operationsBatch with the given id
     /// @param id The id of the operationsBatch
     /// @return operationBatch_ The operationsBatch
     function operationBatch(bytes32 id) public view returns (OperationBatch memory operationBatch_) {
