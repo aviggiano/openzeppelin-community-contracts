@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import {TimelockController} from "@openzeppelin/contracts/governance/TimelockController.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
-/// @notice Extends the TimelockController to allow for enumerable operations
+/// @dev Extends the TimelockController to allow for enumerable operations
 contract TimelockControllerEnumerable is TimelockController {
     using EnumerableSet for EnumerableSet.Bytes32Set;
 
