@@ -130,7 +130,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationsCount_;
     }
 
-    /// @notice Return the operation at the given index
+    /// @dev Return the operation at the given index
     /// @param index The index of the operation
     /// @return operation_ The operation
     function operation(uint256 index) public view returns (Operation memory operation_) {
