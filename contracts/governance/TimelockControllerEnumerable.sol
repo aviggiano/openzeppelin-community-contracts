@@ -125,7 +125,6 @@ contract TimelockControllerEnumerable is TimelockController {
     }
 
     /// @dev Return the number of operations from the set
-    /// @return operationsCount_ The number of operations
     function operationsCount() public view returns (uint256 operationsCount_) {
         operationsCount_ = _operationsIdSet.length();
         return operationsCount_;
