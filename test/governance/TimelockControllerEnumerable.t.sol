@@ -59,6 +59,29 @@ contract TimelockControllerEnumerableTest is Test {
         assertEq(operation.delay, 1 days);
     }
 
+    function test_operations() public {
+        test_schedule();
+        TimelockControllerEnumerable.Operation[] memory operations = timelockControllerEnumerable.operations(0, 1);
+        assertEq(operations.length, 1);
+        assertEq(operations[0].target, address(this));
+        assertEq(operations[0].value, 0);
+        assertEq(operations[0].data, abi.encodeCall(this.call, ()));
+        assertEq(operations[0].predecessor, bytes32(0));
+        assertEq(operations[0].salt, bytes32(0));
+        assertEq(operations[0].delay, 1 days);
+        vm.expectRevert(abi.encodeWithSelector(TimelockControllerEnumerable.InvalidIndexRange.selector, 2, 1));
+        timelockControllerEnumerable.operations(2, 1);
+
+        operations = timelockControllerEnumerable.operations();
+        assertEq(operations.length, 1);
+        assertEq(operations[0].target, address(this));
+        assertEq(operations[0].value, 0);
+        assertEq(operations[0].data, abi.encodeCall(this.call, ()));
+        assertEq(operations[0].predecessor, bytes32(0));
+        assertEq(operations[0].salt, bytes32(0));
+        assertEq(operations[0].delay, 1 days);
+    }
+
     function test_schedule_execute() public {
         test_schedule();
         TimelockControllerEnumerable.Operation memory operation = timelockControllerEnumerable.operation(uint256(0));
@@ -107,6 +130,30 @@ contract TimelockControllerEnumerableTest is Test {
         assertEq(operationBatch.predecessor, bytes32(0));
         assertEq(operationBatch.salt, bytes32(0));
         assertEq(operationBatch.delay, 1 days);
+    }
+
+    function test_operationsBatch() public {
+        test_scheduleBatch();
+        TimelockControllerEnumerable.OperationBatch[] memory operationBatches = timelockControllerEnumerable
+            .operationsBatch(0, 1);
+        assertEq(operationBatches.length, 1);
+        assertEq(operationBatches[0].targets[0], address(this));
+        assertEq(operationBatches[0].values[0], 0);
+        assertEq(operationBatches[0].payloads[0], abi.encodeCall(this.call, ()));
+        assertEq(operationBatches[0].predecessor, bytes32(0));
+        assertEq(operationBatches[0].salt, bytes32(0));
+        assertEq(operationBatches[0].delay, 1 days);
+        vm.expectRevert(abi.encodeWithSelector(TimelockControllerEnumerable.InvalidIndexRange.selector, 2, 1));
+        timelockControllerEnumerable.operationsBatch(2, 1);
+
+        operationBatches = timelockControllerEnumerable.operationsBatch();
+        assertEq(operationBatches.length, 1);
+        assertEq(operationBatches[0].targets[0], address(this));
+        assertEq(operationBatches[0].values[0], 0);
+        assertEq(operationBatches[0].payloads[0], abi.encodeCall(this.call, ()));
+        assertEq(operationBatches[0].predecessor, bytes32(0));
+        assertEq(operationBatches[0].salt, bytes32(0));
+        assertEq(operationBatches[0].delay, 1 days);
     }
 
     function test_scheduleBatch_execute() public {

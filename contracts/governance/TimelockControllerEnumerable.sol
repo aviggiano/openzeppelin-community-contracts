@@ -36,6 +36,8 @@ abstract contract TimelockControllerEnumerable is TimelockController {
     error OperationBatchIndexNotFound(uint256 index);
     /// @dev The error when the operation batch id is not found
     error OperationBatchIdNotFound(bytes32 id);
+    /// @dev The error when the index range is invalid
+    error InvalidIndexRange(uint256 start, uint256 end);
 
     /// @notice The operations id set
     EnumerableSet.Bytes32Set private _operationsIdSet;
@@ -108,9 +110,21 @@ abstract contract TimelockControllerEnumerable is TimelockController {
     /// WARNING: This is designed for view accessors queried without gas fees. Using it in state-changing
     /// functions may become uncallable if the list grows too large.
     function operations() public view returns (Operation[] memory operations_) {
-        uint256 operationsCount_ = _operationsIdSet.length();
-        operations_ = new Operation[](operationsCount_);
-        for (uint256 i = 0; i < operationsCount_; i++) {
+        return operations(0, _operationsIdSet.length());
+    }
+
+    /// @dev Return the operations in the given index range
+    /// @param start The start index
+    /// @param end The end index
+    /// @return operations_ The operations
+    /// WARNING: This is designed for view accessors queried without gas fees. Using it in state-changing
+    /// functions may become uncallable if the list grows too large.
+    function operations(uint256 start, uint256 end) public view returns (Operation[] memory operations_) {
+        if (start > end || start >= _operationsIdSet.length()) {
+            revert InvalidIndexRange(start, end);
+        }
+        operations_ = new Operation[](end - start);
+        for (uint256 i = start; i < end; i++) {
             operations_[i] = _operationsMap[_operationsIdSet.at(i)];
         }
         return operations_;
@@ -144,9 +158,24 @@ abstract contract TimelockControllerEnumerable is TimelockController {
     /// WARNING: This is designed for view accessors queried without gas fees. Using it in state-changing
     /// functions may become uncallable if the list grows too large.
     function operationsBatch() public view returns (OperationBatch[] memory operationsBatch_) {
-        uint256 operationsBatchCount_ = _operationsBatchIdSet.length();
-        operationsBatch_ = new OperationBatch[](operationsBatchCount_);
-        for (uint256 i = 0; i < operationsBatchCount_; i++) {
+        return operationsBatch(0, _operationsBatchIdSet.length());
+    }
+
+    /// @dev Return the operationsBatch in the given index range
+    /// @param start The start index
+    /// @param end The end index
+    /// @return operationsBatch_ The operationsBatch
+    /// WARNING: This is designed for view accessors queried without gas fees. Using it in state-changing
+    /// functions may become uncallable if the list grows too large.
+    function operationsBatch(
+        uint256 start,
+        uint256 end
+    ) public view returns (OperationBatch[] memory operationsBatch_) {
+        if (start > end || start >= _operationsBatchIdSet.length()) {
+            revert InvalidIndexRange(start, end);
+        }
+        operationsBatch_ = new OperationBatch[](end - start);
+        for (uint256 i = start; i < end; i++) {
             operationsBatch_[i] = _operationsBatchMap[_operationsBatchIdSet.at(i)];
         }
         return operationsBatch_;
