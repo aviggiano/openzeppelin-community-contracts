@@ -156,8 +156,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operation_;
     }
 
-    /// @notice Return all scheduled operation batches
-    /// @return operationsBatch_ The operationsBatch array
+    /// @dev Return all scheduled operation batches
     function operationsBatch() public view returns (OperationBatch[] memory operationsBatch_) {
         uint256 operationsBatchCount_ = _operationsBatchIdSet.length();
         operationsBatch_ = new OperationBatch[](operationsBatchCount_);
