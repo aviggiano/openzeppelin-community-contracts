@@ -34,7 +34,7 @@ contract TimelockControllerEnumerable is TimelockController {
     error OperationIdNotFound(bytes32 id);
     /// @dev The error when the operation batch index is not found
     error OperationBatchIndexNotFound(uint256 index);
-    /// @notice The error when the operation batch id is not found
+    /// @dev The error when the operation batch id is not found
     error OperationBatchIdNotFound(bytes32 id);
 
     /// @notice The operations id set
