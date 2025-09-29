@@ -182,9 +182,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationBatch_;
     }
 
-    /// @notice Return the operationsBatch with the given id
-    /// @param id The id of the operationsBatch
-    /// @return operationBatch_ The operationsBatch
+    /// @dev Return the operationsBatch with the given id
     function operationBatch(bytes32 id) public view returns (OperationBatch memory operationBatch_) {
         if (!_operationsBatchIdSet.contains(id)) {
             revert OperationBatchIdNotFound(id);
