@@ -139,7 +139,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operation_;
     }
 
-    /// @notice Return the operation with the given id
+    /// @dev Return the operation with the given id
     function operation(bytes32 id) public view returns (Operation memory operation_) {
         if (!_operationsIdSet.contains(id)) {
             revert OperationIdNotFound(id);
