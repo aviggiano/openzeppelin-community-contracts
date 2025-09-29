@@ -114,7 +114,7 @@ contract TimelockControllerEnumerable is TimelockController {
 
     /// @dev Return all scheduled operations
     /// WARNING: This is designed for view accessors queried without gas fees. Using it in state-changing
-     /// functions may become uncallable if the list grows too large.
+    /// functions may become uncallable if the list grows too large.
     function operations() public view returns (Operation[] memory operations_) {
         uint256 operationsCount_ = _operationsIdSet.length();
         operations_ = new Operation[](operationsCount_);
@@ -149,6 +149,8 @@ contract TimelockControllerEnumerable is TimelockController {
     }
 
     /// @dev Return all scheduled operation batches
+    /// WARNING: This is designed for view accessors queried without gas fees. Using it in state-changing
+    /// functions may become uncallable if the list grows too large.
     function operationsBatch() public view returns (OperationBatch[] memory operationsBatch_) {
         uint256 operationsBatchCount_ = _operationsBatchIdSet.length();
         operationsBatch_ = new OperationBatch[](operationsBatchCount_);
