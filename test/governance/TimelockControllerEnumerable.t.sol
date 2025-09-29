@@ -3,12 +3,13 @@
 pragma solidity ^0.8.20;
 
 import {Test} from "forge-std/Test.sol";
+import {TimelockControllerEnumerableMock} from "./TimelockControllerEnumerableMock.t.sol";
 import {
     TimelockControllerEnumerable
 } from "@openzeppelin/community-contracts/governance/TimelockControllerEnumerable.sol";
 
 contract TimelockControllerEnumerableTest is Test {
-    TimelockControllerEnumerable public timelockControllerEnumerable;
+    TimelockControllerEnumerableMock public timelockControllerEnumerable;
 
     event Call();
 
@@ -18,7 +19,7 @@ contract TimelockControllerEnumerableTest is Test {
         proposers[0] = address(this);
         executors[0] = address(this);
         uint256 minDelay = 1 days;
-        timelockControllerEnumerable = new TimelockControllerEnumerable(minDelay, proposers, executors, address(0));
+        timelockControllerEnumerable = new TimelockControllerEnumerableMock(minDelay, proposers, executors, address(0));
     }
 
     function call() external {

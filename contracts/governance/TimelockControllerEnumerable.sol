@@ -5,7 +5,7 @@ import {TimelockController} from "@openzeppelin/contracts/governance/TimelockCon
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 /// @dev Extends the TimelockController to allow for enumerable operations
-contract TimelockControllerEnumerable is TimelockController {
+abstract contract TimelockControllerEnumerable is TimelockController {
     using EnumerableSet for EnumerableSet.Bytes32Set;
 
     /// @notice The operation struct
@@ -46,14 +46,6 @@ contract TimelockControllerEnumerable is TimelockController {
     EnumerableSet.Bytes32Set private _operationsBatchIdSet;
     /// @notice The operations batch map
     mapping(bytes32 id => OperationBatch operationBatch) private _operationsBatchMap;
-
-    /// @dev Initializes the contract with the given timelock parameters
-    constructor(
-        uint256 minDelay,
-        address[] memory proposers,
-        address[] memory executors,
-        address admin
-    ) TimelockController(minDelay, proposers, executors, admin) {}
 
     /// @inheritdoc TimelockController
     function schedule(
