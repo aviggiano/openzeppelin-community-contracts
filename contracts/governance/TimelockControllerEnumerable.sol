@@ -112,8 +112,9 @@ contract TimelockControllerEnumerable is TimelockController {
         }
     }
 
-    /// @notice Return all scheduled operations
-    /// @return operations_ The operations array
+    /// @dev Return all scheduled operations
+    /// WARNING: This is designed for view accessors queried without gas fees. Using it in state-changing
+     /// functions may become uncallable if the list grows too large.
     function operations() public view returns (Operation[] memory operations_) {
         uint256 operationsCount_ = _operationsIdSet.length();
         operations_ = new Operation[](operationsCount_);
@@ -123,16 +124,13 @@ contract TimelockControllerEnumerable is TimelockController {
         return operations_;
     }
 
-    /// @notice Return the number of operations from the set
-    /// @return operationsCount_ The number of operations
+    /// @dev Return the number of operations from the set
     function operationsCount() public view returns (uint256 operationsCount_) {
         operationsCount_ = _operationsIdSet.length();
         return operationsCount_;
     }
 
-    /// @notice Return the operation at the given index
-    /// @param index The index of the operation
-    /// @return operation_ The operation
+    /// @dev Return the operation at the given index
     function operation(uint256 index) public view returns (Operation memory operation_) {
         if (index >= _operationsIdSet.length()) {
             revert OperationIndexNotFound(index);
@@ -141,9 +139,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operation_;
     }
 
-    /// @notice Return the operation with the given id
-    /// @param id The id of the operation
-    /// @return operation_ The operation
+    /// @dev Return the operation with the given id
     function operation(bytes32 id) public view returns (Operation memory operation_) {
         if (!_operationsIdSet.contains(id)) {
             revert OperationIdNotFound(id);
