@@ -113,7 +113,6 @@ contract TimelockControllerEnumerable is TimelockController {
     }
 
     /// @dev Return all scheduled operations
-    /// @return operations_ The operations array
     function operations() public view returns (Operation[] memory operations_) {
         uint256 operationsCount_ = _operationsIdSet.length();
         operations_ = new Operation[](operationsCount_);
