@@ -47,7 +47,7 @@ contract TimelockControllerEnumerable is TimelockController {
     /// @notice The operations batch map
     mapping(bytes32 id => OperationBatch operationBatch) private _operationsBatchMap;
 
-    /// @notice Initializes the contract with the given timelock parameters
+    /// @dev Initializes the contract with the given timelock parameters
     /// @param minDelay initial minimum delay in seconds for operations
     /// @param proposers accounts to be granted proposer and canceller roles
     /// @param executors accounts to be granted executor role
