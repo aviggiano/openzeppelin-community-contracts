@@ -173,9 +173,7 @@ contract TimelockControllerEnumerable is TimelockController {
         return operationsBatchCount_;
     }
 
-    /// @notice Return the operationsBatch at the given index
-    /// @param index The index of the operationsBatch
-    /// @return operationBatch_ The operationsBatch
+    /// @dev Return the operationsBatch at the given index
     function operationBatch(uint256 index) public view returns (OperationBatch memory operationBatch_) {
         if (index >= _operationsBatchIdSet.length()) {
             revert OperationBatchIndexNotFound(index);
